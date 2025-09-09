@@ -1,5 +1,11 @@
 import pytest
 import json
+import sys
+import os
+
+# Add the parent directory to Python path so we can import the app
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from app import create_app
 from app.extensions import db
 from app.models import Note
@@ -12,10 +18,12 @@ def app():
     app.config['TESTING'] = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
     app.config['WTF_CSRF_ENABLED'] = False
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     with app.app_context():
         db.create_all()
         yield app
+        db.session.remove()
         db.drop_all()
 
 
@@ -174,4 +182,4 @@ def test_home_page(client):
     response = client.get('/')
     
     assert response.status_code == 200
-    assert b'<!DOCTYPE html>' in response.data
+    assert b'<!doctype html>' in response.data
