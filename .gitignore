@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtualenv
+env/
+venv/
+.venv/
+
+# Flask / SQLAlchemy
+instance/
+*.db
+
+# Alembic migrations cache
+migrations/__pycache__/
+*.pyc
+
+# VSCode / IDE
+.vscode/
+.idea/
